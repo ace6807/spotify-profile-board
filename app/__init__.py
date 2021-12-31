@@ -1,11 +1,13 @@
 from flask import Flask
 from app.db import db
 from app.auth.loginmanager import login_manager
-from app.main import bluepriint as main_blueprint
+from app.main import blueprint as main_blueprint
 from app.auth import blueprint as auth_blueprint
+from config import Config
 
-def create_app():
+def create_app(config: Config):
     app = Flask(__name__)
+    app.config.from_object(config)    
     register_extensions(app)
     register_blueprints(app)
     return app

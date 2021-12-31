@@ -1,12 +1,11 @@
-from app.main import bluepriint
+from app.main import blueprint
 from flask import render_template
 
-@bluepriint.route('/')
+@blueprint.route('/')
 def index():
     return render_template("main/index.html")
 
 
-@bluepriint.route('/test')
+@blueprint.route('/test')
 def test():
     return "You are at test"
-
