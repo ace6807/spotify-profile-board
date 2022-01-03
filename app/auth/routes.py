@@ -62,6 +62,7 @@ def redirect_from_authorization():
     )
 
     access_token = ret.json().get("access_token")
+    refresh_token = ret.json().get("refresh_token")
 
     prof_resp = spotify_client.get_user_profile(access_token).json()
 
@@ -69,13 +70,17 @@ def redirect_from_authorization():
 
     if existing_user:
         login_user(existing_user)
+        existing_user.access_token = access_token
+        existing_user.refresh_token = refresh_token
         return redirect(url_for('main.index'))
 
     try:
         new_user = User(
             spotify_id=prof_resp.get("id"),
             email=prof_resp.get("email"),
-            display_name=prof_resp.get("display_name")
+            display_name=prof_resp.get("display_name"),
+            access_token=access_token,
+            refresh_token=refresh_token
         )
         db.session.add(new_user)
         db.session.commit()

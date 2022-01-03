@@ -17,6 +17,8 @@ class User(db.Model, UserMixin):
     display_name = db.Column(db.String(100), unique=True, nullable=True)
     first_name = db.Column(db.String(50), nullable=True)
     last_name = db.Column(db.String(50), nullable=True)
+    access_token = db.Column(db.String(100), nullable=True)
+    refresh_token = db.Column(db.String(100), nullable=True)
 
     def __repr__(self):
         return f"<User {self.spotify_id} - {self.email}>"
