@@ -11,6 +11,8 @@
     {% if current_user.is_authenticated %}
         <h2>Welcome {{current_user.display_name}}</h2>
         <h3><a href="/auth/logout">Logout</a></h3>
+        <br><br>
+        <h3><a href="/top-tracks">Top Tracks</a></h3>
     {% else %}
         <h3><a href="/auth/login">Login</a></h3>
     {% endif %}

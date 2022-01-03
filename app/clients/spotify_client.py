@@ -39,3 +39,7 @@ def _get_spotify_endpoint(endpoint_url: str, access_token: str):
 def get_user_profile(access_token:str):
     endpoint_url = f"{api_url}/me"
     return _get_spotify_endpoint(endpoint_url, access_token)
+
+def get_top_tracks(access_token:str):
+    endpoint_url = f"{api_url}/me/top/tracks"
+    return _get_spotify_endpoint(endpoint_url, access_token)

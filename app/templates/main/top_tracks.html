@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Tracks</title>
+</head>
+<body>
+    <h1>Your Top Tracks</h1>
+    <a href="/">Home</a>
+    <br><br><br>
+    {%for track in tracks %}
+        <h2>{{track.name}}</h2>
+        <h3>{{track.artist}}</h3>
+        <h3>{{track.album}}</h3>
+        <br><br>
+    {%endfor%}
+</body>
+</html>
