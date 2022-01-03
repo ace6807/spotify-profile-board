@@ -14,7 +14,7 @@ def test():
 
 @blueprint.route('/top-tracks')
 @login_required
-def top_items():
+def top_tracks():
     resp = spotify_client.get_top_tracks(current_user.access_token).json()
     tracks = [
         {
