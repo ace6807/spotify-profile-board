@@ -72,6 +72,7 @@ def redirect_from_authorization():
         login_user(existing_user)
         existing_user.access_token = access_token
         existing_user.refresh_token = refresh_token
+        db.session.commit()
         return redirect(url_for('main.index'))
 
     try:
