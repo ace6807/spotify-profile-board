@@ -7,8 +7,9 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Welcome</h1>
+    <h1>Home</h1>
     {% if current_user.is_authenticated %}
+        <h2>Welcome {{current_user.display_name}}</h2>
         <h3><a href="/auth/logout">Logout</a></h3>
     {% else %}
         <h3><a href="/auth/login">Login</a></h3>

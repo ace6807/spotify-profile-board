@@ -15,16 +15,24 @@ def build_route(root_url:str, controller:str):
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-    
-    # TODO: Pass request state
-    context = {
-        "client_id": current_app.config.get("SPOTIFY_CLIENT_ID"),
-        "response_type": "code",
-        "redirect_uri": build_route(request.root_url, 'auth.redirect_from_authorization'),
-        "scope": "user-read-email playlist-read-private user-top-read",
-    }
-    return render_template("auth/login.html", **context)
 
+    scope_list = [
+        "user-read-email", 
+        "playlist-read-private", 
+        "user-top-read"
+    ]
+
+    # scopes = "%20".join(scope_list)
+    scopes = " ".join(scope_list)
+    redirect_uri = build_route(request.root_url, 'auth.redirect_from_authorization')
+    client_id = current_app.config.get("SPOTIFY_CLIENT_ID")
+    response_type = "code"
+
+    # TODO: Pass request state
+    spotify_auth_url = f"https://accounts.spotify.com/authorize?client_id={client_id}&response_type={response_type}&redirect_uri={redirect_uri}&scope={scopes}"
+    return redirect(spotify_auth_url)
+    
+    
 @blueprint.route('/logout')
 @login_required
 def logout():
@@ -61,7 +69,7 @@ def redirect_from_authorization():
 
     if existing_user:
         login_user(existing_user)
-        return "Welcome Back"
+        return redirect(url_for('main.index'))
 
     try:
         new_user = User(
@@ -72,6 +80,6 @@ def redirect_from_authorization():
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
-        return "Success"
+        return redirect(url_for('main.index'))
     except:
         return "Failed to login"
