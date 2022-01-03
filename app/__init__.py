@@ -14,7 +14,7 @@ def create_app(config: Config):
 
 def register_extensions(app:Flask):
     db.init_app(app)
-    # login_manager.init_app(app)
+    login_manager.init_app(app)
     pass
 
 def register_blueprints(app: Flask):
