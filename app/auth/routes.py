@@ -1,9 +1,9 @@
-from urllib.parse import urlsplit, urlunsplit, urlparse
+from urllib.parse import urlsplit, urlunsplit
+from flask_login.utils import login_required, logout_user
 from app.db import db
 from app.auth import blueprint
-from flask import render_template, request, current_app, url_for
-from flask_login import login_user
-
+from flask import render_template, request, current_app, url_for, redirect
+from flask_login import login_user, current_user
 from app.models import User
 
 def build_route(root_url:str, controller:str):
@@ -13,6 +13,9 @@ def build_route(root_url:str, controller:str):
 
 @blueprint.route('/login')
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    
     # TODO: Pass request state
     context = {
         "client_id": current_app.config.get("SPOTIFY_CLIENT_ID"),
@@ -21,6 +24,12 @@ def login():
         "scope": "user-read-email playlist-read-private user-top-read",
     }
     return render_template("auth/login.html", **context)
+
+@blueprint.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))
 
 @blueprint.route('/authorization-redirect', methods=["GET", "POST"])
 def redirect_from_authorization():
@@ -66,4 +75,3 @@ def redirect_from_authorization():
         return "Success"
     except:
         return "Failed to login"
-
